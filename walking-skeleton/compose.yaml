@@ -25,3 +25,13 @@ services:
     restart: unless-stopped
     env_file:
       - project.env
+
+  database-migrations:
+    image: flyway/flyway:11.10
+    env_file:
+      - project.env
+    depends_on:
+      - database
+    volumes:
+      - ./database-migrations:/flyway/db/migration
+    command: -connectRetries=60 -baselineOnMigrate=true migrate
