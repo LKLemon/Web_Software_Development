@@ -1,16 +1,22 @@
 <script>
   import { PUBLIC_API_URL } from "$env/static/public";
-  let visits = $state(0);
+  let todos = $state([]);
 
-  const fetchVisits = async () => {
-    const response = await fetch(`${PUBLIC_API_URL}/api/visits`);
+  const fetchTodos = async () => {
+    const response = await fetch(`${PUBLIC_API_URL}/api/todos`);
     const data = await response.json();
-    visits = data.visits;
+    todos = data;
   };
 
   $effect(() => {
-    fetchVisits();
-  })
+    fetchTodos();
+  });
 </script>
 
-<h1>Visit count: {visits}</h1>
+<h1>Todos</h1>
+
+<ul>
+  {#each todos as todo}
+    <li>{todo.name}</li>
+  {/each}
+</ul>
